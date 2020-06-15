@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import json
 from nltk.tokenize import word_tokenize
+from cordnineteen import *
 
 app = Flask(__name__)
 
@@ -22,10 +23,12 @@ def predict():
             query = strQuery['question']
             queryVector = model.infer_vector(word_tokenize(query))
             similar_doc = model.docvecs.most_similar([queryVector],topn=20)
-            similar_doc = str(similar_doc)
+            #similar_doc = str(similar_doc)
+            documents_found = [files[doc[0]] for doc in similar_doc]
+            documents_found = str(documents_found)
             #return jsonify({'Most similar articles': similar_doc})
             #return similar_doc
-            return similar_doc
+            return documents_found
 
         except:
 
